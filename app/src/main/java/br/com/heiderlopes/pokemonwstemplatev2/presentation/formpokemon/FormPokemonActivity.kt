@@ -37,19 +37,35 @@ class FormPokemonActivity : AppCompatActivity() {
             pokemon.defense = viewBinding.sbDefense.progress
             pokemon.velocity = viewBinding.sbVelocity.progress
             pokemon.ps = viewBinding.sbPS.progress
+            formPokemonViewModel.update(pokemon)
         }
 
     private fun registerObserver() {
         formPokemonViewModel.pokemonResult.observe(this) {
             when(it) {
                 is ViewState.Success -> setValues(it.data)
-                is ViewState.Loading -> {}
+                is ViewState.Failure -> {
+                    Toast.makeText(this, it.throwable.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        formPokemonViewModel.pokemonUpdateResult.observe(this) {
+            when(it) {
+                is ViewState.Success -> {
+                    Toast.makeText(
+                        this,
+                        "Pokémon atualizado com sucesso",
+                        Toast.LENGTH_LONG).show()
+                }
+
                 is ViewState.Failure -> {
                     Toast.makeText(this, it.throwable.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
+
 
     private fun setValues(pokemon: Pokemon) {
         this.pokemon = pokemon

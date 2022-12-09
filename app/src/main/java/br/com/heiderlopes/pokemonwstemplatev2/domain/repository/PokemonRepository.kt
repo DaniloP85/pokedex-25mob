@@ -12,4 +12,8 @@ interface PokemonRepository {
     suspend fun getPokemon(
         number: String
     ): Result<Pokemon>
+
+    suspend fun update(
+        pokemon: Pokemon
+    ): Result<Pokemon>
 }
