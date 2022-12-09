@@ -8,4 +8,8 @@ interface PokemonRepository {
         size: Int,
         sort: String
     ): Result<List<Pokemon>>
+
+    suspend fun getPokemon(
+        number: String
+    ): Result<Pokemon>
 }
